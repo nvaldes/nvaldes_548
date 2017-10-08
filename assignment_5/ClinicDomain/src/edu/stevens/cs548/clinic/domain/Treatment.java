@@ -16,8 +16,10 @@ public abstract class Treatment implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/*
-	 * TODO
+	 * DONE
 	 */
+	@Id
+	@GeneratedValue
 	private long id;
 	private String diagnosis;
 

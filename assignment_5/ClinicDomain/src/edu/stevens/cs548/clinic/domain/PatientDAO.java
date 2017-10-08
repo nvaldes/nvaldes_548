@@ -24,11 +24,13 @@ public class PatientDAO implements IPatientDAO {
 		Query query = em.createNamedQuery("CountPatientByPatientID").setParameter("pid", pid);
 		Long numExisting = (Long) query.getSingleResult();
 		if (numExisting < 1) {
-			// TODO add to database (and sync with database to generate primary key)
+			// DONE add to database (and sync with database to generate primary key)
 			// Don't forget to initialize the patient aggregate with a treatment DAO
-			
-			throw new IllegalStateException("Unimplemented");
-			
+			patient.setTreatmentDAO(new TreatmentDAO(em));
+			em.persist(patient);
+			em.flush();
+			return patient.getId();
+						
 		} else {
 			throw new PatientExn("Insertion: Patient with patient id (" + pid + ") already exists.");
 		}
@@ -36,14 +38,25 @@ public class PatientDAO implements IPatientDAO {
 
 	@Override
 	public Patient getPatient(long id) throws PatientExn {
-		// TODO retrieve patient using primary key
-		return null;
+		// DONE retrieve patient using primary key
+		Patient p = em.find(Patient.class, id);
+		if (p == null) {
+			throw new PatientExn("Missing patient: id = " + id);
+		} else {
+			return p;
+		}
 	}
 
 	@Override
 	public Patient getPatientByPatientId(long pid) throws PatientExn {
-		// TODO retrieve patient using query on patient id (secondary key)
-		return null;
+		// DONE retrieve patient using query on patient id (secondary key)
+		Query query = em.createNamedQuery("SearchPatientByPatientID").setParameter("pid", pid);
+		Patient p = (Patient) query.getSingleResult();
+		if (p == null) {
+			throw new PatientExn("Missing patient: patient id = " + pid);
+		} else {
+			return p;
+		}
 	}
 	
 	@Override

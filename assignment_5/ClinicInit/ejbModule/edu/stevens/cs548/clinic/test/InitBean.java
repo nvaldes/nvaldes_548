@@ -35,7 +35,8 @@ public class InitBean {
 	public InitBean() {
 	}
 	
-	// TODO inject an EM
+	// DONE inject an EM
+	@PersistenceContext(unitName = "ClinicDomain")
 	EntityManager em;
 
 	@PostConstruct
