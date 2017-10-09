@@ -4,9 +4,9 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2016-02-22T07:28:31.839-0500")
+@Generated(value="Dali", date="2017-10-09T17:18:34.832-0400")
 @StaticMetamodel(DrugTreatment.class)
-public class DrugTreatment_ {
+public class DrugTreatment_ extends Treatment_ {
 	public static volatile SingularAttribute<DrugTreatment, String> drug;
 	public static volatile SingularAttribute<DrugTreatment, Float> dosage;
 }

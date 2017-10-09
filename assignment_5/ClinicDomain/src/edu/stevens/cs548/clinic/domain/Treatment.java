@@ -8,8 +8,12 @@ import javax.persistence.*;
  *
  */
 /*
- * TODO
+ * DONE
  */
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "TTYPE")
+@Table(name = "TREATMENT")
 
 public abstract class Treatment implements Serializable {
 	
@@ -32,8 +36,9 @@ public abstract class Treatment implements Serializable {
 	}
 	
 	/*
-	 * TODO
+	 * DONE
 	 */
+	@Column(name = "TTYPE", length = 2)
 	private String treatmentType;
 	
 	public String getTreatmentType() {

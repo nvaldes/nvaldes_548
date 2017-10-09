@@ -2,11 +2,17 @@ package edu.stevens.cs548.clinic.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 /**
  * Entity implementation class for Entity: DrugTreatment
  * 
  */
-// TODO define discriminator column value 
+// DONE define discriminator column value 
+@Entity
+@DiscriminatorValue("DT")
+
 public class DrugTreatment extends Treatment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -39,7 +45,7 @@ public class DrugTreatment extends Treatment implements Serializable {
 
 	public DrugTreatment() {
 		super();
-		this.setTreatmentType("D");
+		this.setTreatmentType(TreatmentType.DRUG_TREATMENT.getTag());
 	}
 
 }

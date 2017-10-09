@@ -8,7 +8,7 @@ public class TreatmentFactory implements ITreatmentFactory {
 		treatment.setDiagnosis(diagnosis);
 		treatment.setDrug(drug);
 		treatment.setDosage(dosage);
-		treatment.setTreatmentType(TreatmentType.DRUG_TREATMENT.getTag());
+//		treatment.setTreatmentType(TreatmentType.DRUG_TREATMENT.getTag());
 		return null;
 	}
 

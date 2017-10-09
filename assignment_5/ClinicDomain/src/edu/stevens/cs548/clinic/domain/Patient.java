@@ -1,6 +1,7 @@
 package edu.stevens.cs548.clinic.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +14,10 @@ import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
  *
  */
 /*
- * TODO
+ * DONE
  */
+@Entity
+
 
 @NamedQueries({
 	@NamedQuery(
@@ -29,8 +32,9 @@ import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 })
 
 /*
- * TODO
+ * DONE
  */
+@Table(name = "PATIENT")
 public class Patient implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -44,7 +48,7 @@ public class Patient implements Serializable {
 	
 	private String name;
 	
-	// TODO JPA annotation
+	// DONE JPA annotation
 	@Temporal(TemporalType.DATE)
 	private Date birthDate;
 
@@ -129,8 +133,9 @@ public class Patient implements Serializable {
 	public Patient() {
 		super();
 		/*
-		 * TODO initialize lists
+		 * DONE initialize lists
 		 */
+		treatments = new ArrayList<Treatment>();
 	}
    
 }

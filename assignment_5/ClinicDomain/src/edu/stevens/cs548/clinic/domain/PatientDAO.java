@@ -26,8 +26,8 @@ public class PatientDAO implements IPatientDAO {
 		if (numExisting < 1) {
 			// DONE add to database (and sync with database to generate primary key)
 			// Don't forget to initialize the patient aggregate with a treatment DAO
-			patient.setTreatmentDAO(new TreatmentDAO(em));
 			em.persist(patient);
+			patient.setTreatmentDAO(this.treatmentDAO);
 			em.flush();
 			return patient.getId();
 						
