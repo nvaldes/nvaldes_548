@@ -2,10 +2,12 @@ package edu.stevens.cs548.clinic.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
@@ -13,8 +15,10 @@ import javax.persistence.Transient;
  *
  */
 /*
- * TODO
+ * DONE
  */
+
+@Entity
 
 @NamedQueries({
 	@NamedQuery(
@@ -28,6 +32,7 @@ import javax.persistence.Transient;
 		query = "delete from Provider p")
 })
 
+@Table(name = "PROVIDER")
 
 public class Provider implements Serializable {
 	

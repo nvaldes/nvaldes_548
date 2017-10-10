@@ -1,5 +1,8 @@
 package edu.stevens.cs548.clinic.domain;
 
+import java.util.Date;
+import java.util.List;
+
 public class TreatmentFactory implements ITreatmentFactory {
 
 	@Override
@@ -8,8 +11,24 @@ public class TreatmentFactory implements ITreatmentFactory {
 		treatment.setDiagnosis(diagnosis);
 		treatment.setDrug(drug);
 		treatment.setDosage(dosage);
-//		treatment.setTreatmentType(TreatmentType.DRUG_TREATMENT.getTag());
-		return null;
+		return treatment;
 	}
+	
+	@Override
+	public Treatment createSurgeryTreatment(String diagnosis, Date date) {
+		SurgeryTreatment treatment = new SurgeryTreatment();
+		treatment.setDiagnosis(diagnosis);
+		treatment.setDate(date);
+		return treatment;
+	}
+	
+	@Override
+	public Treatment createRadiologyTreatment(String diagnosis, List<Date> dates) {
+		RadiologyTreatment treatment = new RadiologyTreatment();
+		treatment.setDiagnosis(diagnosis);
+		treatment.setDates(dates);
+		return treatment;
+	}
+
 
 }
