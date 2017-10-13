@@ -104,7 +104,7 @@ public class Patient implements Serializable {
 		this.treatmentDAO = tdao;
 	}
 	
-	private long addTreatment (Treatment t) {
+	long addTreatment (Treatment t) {
 		// Persist treatment and set forward and backward links
 		this.treatmentDAO.addTreatment(t);
 		this.getTreatments().add(t);
@@ -114,27 +114,27 @@ public class Patient implements Serializable {
 		return t.getId();
 	}
 	
-	public long addDrugTreatment(String diagnosis, String drug, float dosage) {
-		DrugTreatment t = new DrugTreatment();
-		t.setDiagnosis(diagnosis);
-		t.setDosage(dosage);
-		t.setDrug(drug);
-		return this.addTreatment(t);
-	}
-	
-	public long addSurgeryTreatment(String diagnosis, Date date) {
-		SurgeryTreatment t = new SurgeryTreatment();
-		t.setDiagnosis(diagnosis);
-		t.setDate(date);
-		return this.addTreatment(t);
-	}
-
-	public long addRadiologyTreatment(String diagnosis, List<Date> dates) {
-		RadiologyTreatment t = new RadiologyTreatment();
-		t.setDiagnosis(diagnosis);
-		t.setDates(dates);
-		return this.addTreatment(t);
-	}
+//	public long addDrugTreatment(String diagnosis, String drug, float dosage) {
+//		DrugTreatment t = new DrugTreatment();
+//		t.setDiagnosis(diagnosis);
+//		t.setDosage(dosage);
+//		t.setDrug(drug);
+//		return this.addTreatment(t);
+//	}
+//	
+//	public long addSurgeryTreatment(String diagnosis, Date date) {
+//		SurgeryTreatment t = new SurgeryTreatment();
+//		t.setDiagnosis(diagnosis);
+//		t.setDate(date);
+//		return this.addTreatment(t);
+//	}
+//
+//	public long addRadiologyTreatment(String diagnosis, List<Date> dates) {
+//		RadiologyTreatment t = new RadiologyTreatment();
+//		t.setDiagnosis(diagnosis);
+//		t.setDates(dates);
+//		return this.addTreatment(t);
+//	}
 	
 	public void getTreatmentIds(List<Long> treatmentIds) {
 		for (Treatment t : this.getTreatments()) {

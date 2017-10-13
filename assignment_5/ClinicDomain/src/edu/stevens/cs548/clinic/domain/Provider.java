@@ -1,12 +1,16 @@
 package edu.stevens.cs548.clinic.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -68,11 +72,34 @@ public class Provider implements Serializable {
 		this.name = name;
 	}
 	
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "provider")
+	@OrderBy
+	private List<Treatment> treatments;
+
+	protected List<Treatment> getTreatments() {
+		return treatments;
+	}
+
+	protected void setTreatments(List<Treatment> treatments) {
+		this.treatments = treatments;
+	}
+	
+	long addTreatment(Treatment t, Patient patient) {
+		// Persist treatment and set forward and backward links
+		this.getTreatments().add(t);
+		if (t.getProvider() != this) {
+			t.setProvider(this);
+		}
+		return patient.addTreatment(t);
+	}
+	
 	@Transient
 	private ITreatmentDAO treatmentDAO;
 	
 	public void setTreatmentDAO (ITreatmentDAO tdao) {
 		this.treatmentDAO = tdao;
 	}
+
+	
 
 }

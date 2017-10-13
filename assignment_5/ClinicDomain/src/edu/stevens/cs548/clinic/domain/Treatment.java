@@ -74,6 +74,20 @@ public abstract class Treatment implements Serializable {
 			patient.addTreatment(this);
 	}
 	
+	@ManyToOne
+	@JoinColumn(name = "provider_fk", referencedColumnName = "id")
+	private Provider provider;
+
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+		if (!provider.getTreatments().contains(this))
+			provider.addTreatment(this, this.patient);
+	}
+	
 	public abstract <T> T export(ITreatmentExporter<T> visitor);
 
 	public Treatment() {
