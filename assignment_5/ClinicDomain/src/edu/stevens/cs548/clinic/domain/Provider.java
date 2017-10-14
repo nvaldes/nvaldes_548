@@ -40,6 +40,8 @@ import javax.persistence.Transient;
 
 public class Provider implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue
 	private long id;
@@ -91,6 +93,19 @@ public class Provider implements Serializable {
 			t.setProvider(this);
 		}
 		return patient.addTreatment(t);
+	}
+	
+	public long addDrugTreatment(DrugTreatment t, Patient p) {
+		return this.addTreatment(t, p);
+	}
+	
+	public long addSurgeryTreatment(SurgeryTreatment t, Patient p) {
+		return this.addTreatment(t, p);
+	}
+	
+
+	public long addRadiologyTreatment(RadiologyTreatment t, Patient p) {
+		return this.addTreatment(t, p);
 	}
 	
 	@Transient

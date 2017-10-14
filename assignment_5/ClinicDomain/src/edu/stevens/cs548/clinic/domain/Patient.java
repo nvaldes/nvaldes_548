@@ -114,27 +114,19 @@ public class Patient implements Serializable {
 		return t.getId();
 	}
 	
-//	public long addDrugTreatment(String diagnosis, String drug, float dosage) {
-//		DrugTreatment t = new DrugTreatment();
-//		t.setDiagnosis(diagnosis);
-//		t.setDosage(dosage);
-//		t.setDrug(drug);
-//		return this.addTreatment(t);
-//	}
-//	
-//	public long addSurgeryTreatment(String diagnosis, Date date) {
-//		SurgeryTreatment t = new SurgeryTreatment();
-//		t.setDiagnosis(diagnosis);
-//		t.setDate(date);
-//		return this.addTreatment(t);
-//	}
-//
-//	public long addRadiologyTreatment(String diagnosis, List<Date> dates) {
-//		RadiologyTreatment t = new RadiologyTreatment();
-//		t.setDiagnosis(diagnosis);
-//		t.setDates(dates);
-//		return this.addTreatment(t);
-//	}
+	public long addDrugTreatment(DrugTreatment t, Provider p) {
+		return p.addTreatment(t, this);
+	}
+	
+	public long addSurgeryTreatment(SurgeryTreatment t, Provider p) {
+		return p.addTreatment(t, this);
+	}
+	
+
+	public long addRadiologyTreatment(RadiologyTreatment t, Provider p) {
+		return p.addTreatment(t, this);
+	}
+	
 	
 	public void getTreatmentIds(List<Long> treatmentIds) {
 		for (Treatment t : this.getTreatments()) {

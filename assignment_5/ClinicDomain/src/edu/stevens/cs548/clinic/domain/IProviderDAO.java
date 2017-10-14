@@ -1,7 +1,5 @@
 package edu.stevens.cs548.clinic.domain;
 
-import edu.stevens.cs548.clinic.domain.IPatientDAO.PatientExn;
-
 public interface IProviderDAO {
 	
 	public static class ProviderExn extends Exception {

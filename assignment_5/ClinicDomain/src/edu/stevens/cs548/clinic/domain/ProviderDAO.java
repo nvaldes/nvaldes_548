@@ -26,7 +26,7 @@ public class ProviderDAO implements IProviderDAO{
 		if (numExisting < 1) {
 			// DONE add to database (and sync with database to generate primary key)
 			// Don't forget to initialize the provider aggregate with a treatment DAO
-			provider.setTreatmentDAO(new TreatmentDAO(em));
+			provider.setTreatmentDAO(this.treatmentDAO);
 			em.persist(provider);
 			em.flush();
 			return provider.getId();
