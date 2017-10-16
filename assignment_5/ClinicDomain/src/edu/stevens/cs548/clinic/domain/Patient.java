@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 
 /**
@@ -85,7 +87,8 @@ public class Patient implements Serializable {
 	}
 
 	// DONE JPA annotations (propagate deletion of patient to treatments)
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "patient")
+	@OneToMany(cascade = { CascadeType.REMOVE }, mappedBy = "patient")
+	@CascadeOnDelete
 	@OrderBy
 	private List<Treatment> treatments;
 

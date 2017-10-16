@@ -3,6 +3,7 @@ package edu.stevens.cs548.clinic.domain;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * Entity implementation class for Entity: Treatment
  *

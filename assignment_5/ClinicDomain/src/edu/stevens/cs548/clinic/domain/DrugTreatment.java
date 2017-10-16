@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 /**
  * Entity implementation class for Entity: DrugTreatment
  * 
@@ -12,6 +14,7 @@ import javax.persistence.Entity;
 // DONE define discriminator column value 
 @Entity
 @DiscriminatorValue("DT")
+@CascadeOnDelete
 
 public class DrugTreatment extends Treatment implements Serializable {
 

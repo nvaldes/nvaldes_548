@@ -9,14 +9,19 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 @Entity
 @DiscriminatorValue("RA")
+@CascadeOnDelete
+
 public class RadiologyTreatment extends Treatment {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@ElementCollection
 	@Temporal(TemporalType.DATE)
+	@CascadeOnDelete
 	public List<Date> dates;
 
 	public List<Date> getDates() {

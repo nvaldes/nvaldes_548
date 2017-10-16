@@ -13,9 +13,9 @@
 		<class>edu.stevens.cs548.clinic.domain.RadiologyTreatment</class>
 		<class>edu.stevens.cs548.clinic.domain.SurgeryTreatment</class>
 		<properties>
-			<!-- <property name="eclipselink.target-database" value="Derby"/> -->
-			<property name="eclipselink.target-database" value="PostgreSQL" />
-
+			<property name="eclipselink.target-database" value="Derby"/>
+<!-- 			<property name="eclipselink.target-database" value="PostgreSQL" />
+ -->
 			<!-- See more at: http://www.eclipse.org/eclipselink/documentation/2.5/jpa/extensions/p_ddl_generation.htm -->
 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
 			<property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL.sql" />

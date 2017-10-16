@@ -8,9 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
 
 @Entity
 @DiscriminatorValue("SU")
+@CascadeOnDelete
+
 public class SurgeryTreatment extends Treatment implements Serializable {
 
 	private static final long serialVersionUID = 1L;

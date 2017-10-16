@@ -6,7 +6,7 @@ import java.util.List;
 public class TreatmentFactory implements ITreatmentFactory {
 
 	@Override
-	public Treatment createDrugTreatment(String diagnosis, String drug, float dosage) {
+	public DrugTreatment createDrugTreatment(String diagnosis, String drug, float dosage) {
 		DrugTreatment treatment = new DrugTreatment();
 		treatment.setDiagnosis(diagnosis);
 		treatment.setDrug(drug);
@@ -15,7 +15,7 @@ public class TreatmentFactory implements ITreatmentFactory {
 	}
 	
 	@Override
-	public Treatment createSurgeryTreatment(String diagnosis, Date date) {
+	public SurgeryTreatment createSurgeryTreatment(String diagnosis, Date date) {
 		SurgeryTreatment treatment = new SurgeryTreatment();
 		treatment.setDiagnosis(diagnosis);
 		treatment.setDate(date);
@@ -23,7 +23,7 @@ public class TreatmentFactory implements ITreatmentFactory {
 	}
 	
 	@Override
-	public Treatment createRadiologyTreatment(String diagnosis, List<Date> dates) {
+	public RadiologyTreatment createRadiologyTreatment(String diagnosis, List<Date> dates) {
 		RadiologyTreatment treatment = new RadiologyTreatment();
 		treatment.setDiagnosis(diagnosis);
 		treatment.setDates(dates);
