@@ -9,6 +9,9 @@
 		<class>edu.stevens.cs548.clinic.domain.Patient</class>
 		<class>edu.stevens.cs548.clinic.domain.Treatment</class>
 		<class>edu.stevens.cs548.clinic.domain.DrugTreatment</class>
+		<class>edu.stevens.cs548.clinic.domain.Provider</class>
+		<class>edu.stevens.cs548.clinic.domain.RadiologyTreatment</class>
+		<class>edu.stevens.cs548.clinic.domain.SurgeryTreatment</class>
 		<properties>
 			<!-- <property name="eclipselink.target-database" value="Derby"/> -->
 			<property name="eclipselink.target-database" value="PostgreSQL" />
