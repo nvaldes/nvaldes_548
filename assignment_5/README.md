@@ -1,0 +1,6 @@
+# CS548 Assignment 5
+## Noriel Valdes
+
+Patients and Providers are largely identical.  Their main difference, other than the fields they possess, is in how they handle treatments.  Providers are intended to use the treatment factory to create the concrete treatment object, and then pass this treatment along with the patient receiving the treatment to the specific `Provider.add______Treatment(Treatment t, Patient p)` method.  The provider sets itself as the provider-of-record for the treatment, and then invokes `Patient.addTreatment(Treatment t)` to set the patient of record for the treatment.  Patient.addTreatment returns the treatment's ID, which cascades all the way up the call stack to the original Provider method.
+
+Treatments are concrete subclasses with a common abstract parent class.  In order to guard against foreign key reference violations, it was necessary to add the `@CascadeOnDelete` annotation to the treatments list in the Patient, as well as to the concrete entity declarations.  This way, the foreign key constraints were created by Eclipse with `ON DELETE CASCADE` in the schema.
