@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import edu.stevens.cs548.clinic.domain.IPatientDAO;
 import edu.stevens.cs548.clinic.domain.IPatientDAO.PatientExn;
@@ -12,9 +15,9 @@ import edu.stevens.cs548.clinic.domain.IPatientFactory;
 import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 import edu.stevens.cs548.clinic.domain.ITreatmentExporter;
 import edu.stevens.cs548.clinic.domain.Patient;
-import edu.stevens.cs548.clinic.service.dto.ObjectFactory;
-import edu.stevens.cs548.clinic.service.dto.PatientDto;
-import edu.stevens.cs548.clinic.service.dto.TreatmentDto;
+import edu.stevens.cs548.clinic.domain.PatientDAO;
+import edu.stevens.cs548.clinic.domain.PatientFactory;
+import edu.stevens.cs548.clinic.service.dto.*;
 import edu.stevens.cs548.clinic.service.dto.util.PatientDtoFactory;
 
 /**
@@ -37,10 +40,17 @@ public class PatientService implements IPatientServiceLocal,
 	 * Default constructor.
 	 */
 	public PatientService() {
-		// TODO initialize factories
+		this.patientDtoFactory = new PatientDtoFactory();
+		this.patientFactory = new PatientFactory();
 	}
+		
+	@PersistenceContext(unitName="ClinicDomain")
+	private EntityManager em;
 	
-	// TODO use dependency injection and EJB lifecycle methods to initialize DAOs
+	@PostConstruct
+	private void initialize() {
+		this.patientDAO = new PatientDAO(em);
+	}
 
 	/**
 	 * @see IPatientService#addPatient(String, Date, long)
@@ -62,8 +72,11 @@ public class PatientService implements IPatientServiceLocal,
 	 */
 	@Override
 	public PatientDto getPatient(long id) throws PatientServiceExn {
-		// TODO use DAO to get patient by database key
-		return null;
+		try {
+			return this.patientDtoFactory.createPatientDto(this.patientDAO.getPatient(id));
+		} catch (PatientExn e) {
+			throw new PatientServiceExn(e.getMessage());
+		}
 	}
 
 	/**
@@ -71,8 +84,11 @@ public class PatientService implements IPatientServiceLocal,
 	 */
 	@Override
 	public PatientDto getPatientByPatId(long pid) throws PatientServiceExn {
-		// TODO use DAO to get patient by patient id
-		return null;
+		try {
+			return this.patientDtoFactory.createPatientDto(this.patientDAO.getPatientByPatientId(pid));
+		} catch (PatientExn e) {
+			throw new PatientServiceExn(e.getMessage());
+		}
 	}
 
 	public class TreatmentExporter implements ITreatmentExporter<TreatmentDto> {
@@ -84,23 +100,34 @@ public class PatientService implements IPatientServiceLocal,
 				float dosage) {
 			TreatmentDto dto = factory.createTreatmentDto();
 			dto.setDiagnosis(diagnosis);
-//			DrugTreatmentType drugInfo = factory.createDrugTreatmentType();
-//			drugInfo.setDosage(dosage);
-//			drugInfo.setName(drug);
-//			dto.setDrugTreatment(drugInfo);
+			DrugTreatmentType drugInfo = factory.createDrugTreatmentType();
+			drugInfo.setDosage(dosage);
+			drugInfo.setDrug(drug);
+			dto.setDrugTreatment(drugInfo);
 			return dto;
 		}
 
 		@Override
 		public TreatmentDto exportRadiology(long tid, String diagnosis, List<Date> dates) {
-			// TODO Auto-generated method stub	
-			return null;
+			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setDiagnosis(diagnosis);
+			RadiologyTreatmentType radiologyInfo = factory.createRadiologyTreatmentType();
+			List<Date> datesList = radiologyInfo.getDates();
+			for (Date d : dates) {
+				datesList.add(d);
+			}
+			dto.setRadiologyTreatment(radiologyInfo);
+			return dto;
 		}
 
 		@Override
 		public TreatmentDto exportSurgery(long tid, String diagnosis, Date date) {
-			// TODO Auto-generated method stub	
-			return null;
+			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setDiagnosis(diagnosis);
+			SurgeryTreatmentType surgeryInfo = factory.createSurgeryTreatmentType();
+			surgeryInfo.setDate(date);
+			dto.setSurgeryTreatment(surgeryInfo);
+			return dto;
 		}
 		
 	}
