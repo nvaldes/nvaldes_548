@@ -52,9 +52,6 @@
 		</complexType>
 	</element>
 
-
-
-
     <complexType name="drug-treatment-type">
     	<sequence>
     		<element name="drug" type="string"/>

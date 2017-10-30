@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://cs548.stevens.edu/clinic/dto" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://cs548.stevens.edu/clinic/dto">
+
+<xs:element name="patient-dto">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="patient-id" type="xs:long"/>
+<xs:element name="name" type="xs:string"/>
+<xs:element name="dob" type="xs:date"/>
+<xs:element name="age" type="xs:int"/>
+<xs:element name="treatments" type="xs:long" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+
+<xs:element name="treatment-dto">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="diagnosis" type="xs:string"/>
+<xs:element name="patient" type="xs:long"/>
+<xs:element name="provider" type="xs:long"/>
+<xs:element name="drug-treatment" type="tns:drug-treatment-type" minOccurs="0"/>
+<xs:element name="surgery-treatment" type="tns:surgery-treatment-type" minOccurs="0"/>
+<xs:element name="radiology-treatment" type="tns:radiology-treatment-type" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+
+<xs:complexType name="drug-treatment-type">
+<xs:sequence>
+<xs:element name="drug" type="xs:string"/>
+<xs:element name="dosage" type="xs:float"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="surgery-treatment-type">
+<xs:sequence>
+<xs:element name="date" type="xs:date"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="radiology-treatment-type">
+<xs:sequence>
+<xs:element name="dates" type="xs:date" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

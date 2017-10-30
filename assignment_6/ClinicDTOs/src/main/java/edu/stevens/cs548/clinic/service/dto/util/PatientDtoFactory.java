@@ -1,7 +1,6 @@
 package edu.stevens.cs548.clinic.service.dto.util;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import edu.stevens.cs548.clinic.domain.Patient;
@@ -29,7 +28,9 @@ public class PatientDtoFactory {
 		d.setName(p.getName());
 		d.setPatientId(p.getPatientId());
 		List<Long> treatments = d.getTreatments();
-		// TODO how to get list of treatment IDs?
+		for (Long tid : p.getTreatmentIds()) {
+			treatments.add(tid);
+		}
 		return d;
 	}
 

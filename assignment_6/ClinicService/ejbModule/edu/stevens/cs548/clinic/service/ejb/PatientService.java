@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,7 +25,8 @@ import edu.stevens.cs548.clinic.service.dto.util.PatientDtoFactory;
  * Session Bean implementation class PatientService
  */
 @Stateless(name="PatientServiceBean")
-public class PatientService implements IPatientServiceLocal,
+public class PatientService implements IPatientService,
+		IPatientServiceLocal,
 		IPatientServiceRemote {
 	
 	@SuppressWarnings("unused")
@@ -147,7 +149,7 @@ public class PatientService implements IPatientServiceLocal,
 		}
 	}
 
-	// TODO inject resource value
+	@Resource(name = "SiteInfo")
 	private String siteInformation;
 	
 

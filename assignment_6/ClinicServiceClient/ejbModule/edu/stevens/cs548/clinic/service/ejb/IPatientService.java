@@ -1,7 +1,5 @@
 package edu.stevens.cs548.clinic.service.ejb;
 
-import java.util.Date;
-
 import edu.stevens.cs548.clinic.service.dto.PatientDto;
 import edu.stevens.cs548.clinic.service.dto.TreatmentDto;
 

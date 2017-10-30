@@ -1,6 +1,7 @@
 package edu.stevens.cs548.clinic.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 
 /**
  * Entity implementation class for Entity: Provider
@@ -106,6 +109,24 @@ public class Provider implements Serializable {
 
 	public long addRadiologyTreatment(RadiologyTreatment t, Patient p) {
 		return this.addTreatment(t, p);
+	}
+	
+	public List<Long> getTreatmentIds() {
+		List<Long> treatmentIds = new ArrayList<Long>();
+		for (Treatment t : this.getTreatments()) {
+			treatmentIds.add(t.getId());
+		}
+		return treatmentIds;
+	}
+	
+	public <T> T exportTreatment(long tid, ITreatmentExporter<T> visitor) throws TreatmentExn {
+		// Export a treatment without violated Aggregate pattern
+		// Check that the exported treatment is a treatment from this provider.
+		Treatment t = treatmentDAO.getTreatment(tid);
+		if (t.getProvider() != this) {
+			throw new TreatmentExn("Inappropriate treatment access: provider = " + id + ", treatment = " + tid);
+		}
+		return t.export(visitor);
 	}
 	
 	@Transient

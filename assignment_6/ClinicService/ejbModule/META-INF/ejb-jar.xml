@@ -11,5 +11,14 @@
         <env-entry-value>WeACT-x</env-entry-value>
       </env-entry>
     </session>
+    <session>
+      <ejb-name>ProviderServiceBean</ejb-name>
+      <env-entry>
+        <description>Site deployment information for the patient service.</description>
+        <env-entry-name>SiteInfo</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>WeACT-x</env-entry-value>
+      </env-entry>
+    </session>
   </enterprise-beans>
 </ejb-jar>

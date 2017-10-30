@@ -131,10 +131,12 @@ public class Patient implements Serializable {
 	}
 	
 	
-	public void getTreatmentIds(List<Long> treatmentIds) {
+	public List<Long> getTreatmentIds() {
+		List<Long> treatmentIds = new ArrayList<Long>();
 		for (Treatment t : this.getTreatments()) {
 			treatmentIds.add(t.getId());
 		}
+		return treatmentIds;
 	}
 	
 	public <T> T exportTreatment(long tid, ITreatmentExporter<T> visitor) throws TreatmentExn {

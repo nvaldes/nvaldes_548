@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://cs548.stevens.edu/clinic/service/web/soap" xmlns:ns1="http://cs548.stevens.edu/clinic/dto" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://cs548.stevens.edu/clinic/service/web/soap">
+
+<xs:import namespace="http://cs548.stevens.edu/clinic/dto" schemaLocation="http://i326:8080/ClinicSoapWebService-1.0.0/ProviderWebService?xsd=2"/>
+
+<xs:element name="ProviderNotFoundExn" type="tns:ProviderNotFoundExn"/>
+
+<xs:element name="ProviderServiceExn" type="tns:ProviderServiceExn"/>
+
+<xs:element name="TreatmentNotFoundExn" type="tns:TreatmentNotFoundExn"/>
+
+<xs:element name="addProvider" type="tns:addProvider"/>
+
+<xs:element name="addProviderResponse" type="tns:addProviderResponse"/>
+
+<xs:element name="getProvider" type="tns:getProvider"/>
+
+<xs:element name="getProviderByNpi" type="tns:getProviderByNpi"/>
+
+<xs:element name="getProviderByNpiResponse" type="tns:getProviderByNpiResponse"/>
+
+<xs:element name="getProviderResponse" type="tns:getProviderResponse"/>
+
+<xs:element name="providerAddTreatment" type="tns:providerAddTreatment"/>
+
+<xs:element name="providerAddTreatmentResponse" type="tns:providerAddTreatmentResponse"/>
+
+<xs:element name="providerGetTreatment" type="tns:providerGetTreatment"/>
+
+<xs:element name="providerGetTreatmentResponse" type="tns:providerGetTreatmentResponse"/>
+
+<xs:element name="siteInfo" type="tns:siteInfo"/>
+
+<xs:element name="siteInfoResponse" type="tns:siteInfoResponse"/>
+
+<xs:complexType name="providerAddTreatment">
+<xs:sequence>
+<xs:element name="arg0" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="diagnosis" type="xs:string"/>
+<xs:element name="patient" type="xs:long"/>
+<xs:element name="provider" type="xs:long"/>
+<xs:element name="drug-treatment" type="ns1:drug-treatment-type" minOccurs="0"/>
+<xs:element name="surgery-treatment" type="ns1:surgery-treatment-type" minOccurs="0"/>
+<xs:element name="radiology-treatment" type="ns1:radiology-treatment-type" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="providerAddTreatmentResponse">
+<xs:sequence>
+<xs:element ref="ns1:treatment-dto"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ProviderNotFoundExn">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="TreatmentNotFoundExn">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ProviderServiceExn">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="providerGetTreatment">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+<xs:element name="arg1" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="providerGetTreatmentResponse">
+<xs:sequence>
+<xs:element ref="ns1:treatment-dto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addProvider">
+<xs:sequence>
+<xs:element ref="ns1:provider-dto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addProviderResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="siteInfo">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="siteInfoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProvider">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProviderResponse">
+<xs:sequence>
+<xs:element ref="ns1:provider-dto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProviderByNpi">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProviderByNpiResponse">
+<xs:sequence>
+<xs:element ref="ns1:provider-dto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
