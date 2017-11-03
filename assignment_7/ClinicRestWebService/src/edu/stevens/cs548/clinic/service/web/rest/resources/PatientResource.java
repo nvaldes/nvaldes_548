@@ -61,8 +61,9 @@ public class PatientResource {
     }
 
 	/*
-	 * TODO input should be application/xml
+	 * DONE input should be application/xml
 	 */
+    @Consumes("application/xml")
     public Response addPatient(PatientRepresentation patientRep) {
     	try {
     		PatientDto dto = patientDtoFactory.createPatientDto();
@@ -83,8 +84,9 @@ public class PatientResource {
 	 * Query methods for patient resources.
 	 */
 	/*
-	 * TODO output should be application/xml
+	 * DONE output should be application/xml
 	 */
+    @Produces("application/xml")
 	public PatientRepresentation getPatient(@PathParam("id") String id) {
 		try {
 			long key = Long.parseLong(id);
@@ -96,9 +98,10 @@ public class PatientResource {
 		}
 	}
     
-	/*
-	 * TODO output should be application/xml
+    /*
+	 * DONE output should be application/xml
 	 */
+    @Produces("application/xml")
 	public PatientRepresentation getPatientByPatientId(@QueryParam("id") String patientId) {
 		try {
 			long key = Long.parseLong(patientId);
@@ -110,9 +113,10 @@ public class PatientResource {
 		}
 	}
     
-	/*
-	 * TODO output should be application/xml
+    /*
+	 * DONE output should be application/xml
 	 */
+    @Produces("application/xml")
     public TreatmentRepresentation getPatientTreatment(@PathParam("id") String id, @PathParam("tid") String tid) {
     	try {
     		TreatmentDto treatment = patientService.getTreatment(Long.parseLong(id), Long.parseLong(tid)); 

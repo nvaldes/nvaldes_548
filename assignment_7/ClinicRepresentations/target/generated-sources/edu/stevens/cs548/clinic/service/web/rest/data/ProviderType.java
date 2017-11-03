@@ -9,32 +9,27 @@
 package edu.stevens.cs548.clinic.service.web.rest.data;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import edu.stevens.cs548.clinic.service.web.rest.data.dap.LinkType;
 
 
 /**
- * <p>Java class for PatientType complex type.
+ * <p>Java class for ProviderType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PatientType"&gt;
+ * &lt;complexType name="ProviderType"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="id" type="{http://cs548.stevens.edu/clinic/service/web/rest/data/dap}LinkType"/&gt;
- *         &lt;element name="patient-id" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="npi" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="dob" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
- *         &lt;element name="age" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="treatments" type="{http://cs548.stevens.edu/clinic/service/web/rest/data/dap}LinkType" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -45,27 +40,19 @@ import edu.stevens.cs548.clinic.service.web.rest.data.dap.LinkType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PatientType", propOrder = {
+@XmlType(name = "ProviderType", propOrder = {
     "id",
-    "patientId",
+    "npi",
     "name",
-    "dob",
-    "age",
     "treatments"
 })
-public class PatientType {
+public class ProviderType {
 
     @XmlElement(required = true)
     protected LinkType id;
-    @XmlElement(name = "patient-id")
-    protected long patientId;
+    protected long npi;
     @XmlElement(required = true)
     protected String name;
-    @XmlElement(required = true, type = String.class)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    @XmlSchemaType(name = "date")
-    protected Date dob;
-    protected int age;
     @XmlElement(nillable = true)
     protected List<LinkType> treatments;
 
@@ -94,19 +81,19 @@ public class PatientType {
     }
 
     /**
-     * Gets the value of the patientId property.
+     * Gets the value of the npi property.
      * 
      */
-    public long getPatientId() {
-        return patientId;
+    public long getNpi() {
+        return npi;
     }
 
     /**
-     * Sets the value of the patientId property.
+     * Sets the value of the npi property.
      * 
      */
-    public void setPatientId(long value) {
-        this.patientId = value;
+    public void setNpi(long value) {
+        this.npi = value;
     }
 
     /**
@@ -131,46 +118,6 @@ public class PatientType {
      */
     public void setName(String value) {
         this.name = value;
-    }
-
-    /**
-     * Gets the value of the dob property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public Date getDob() {
-        return dob;
-    }
-
-    /**
-     * Sets the value of the dob property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDob(Date value) {
-        this.dob = value;
-    }
-
-    /**
-     * Gets the value of the age property.
-     * 
-     */
-    public int getAge() {
-        return age;
-    }
-
-    /**
-     * Sets the value of the age property.
-     * 
-     */
-    public void setAge(int value) {
-        this.age = value;
     }
 
     /**

@@ -54,9 +54,10 @@ public class TreatmentRepresentation extends TreatmentType {
 		this.id = getTreatmentLink(dto.getId(), uriInfo);
 		this.patient =  PatientRepresentation.getPatientLink(dto.getPatient(), uriInfo);
 		/*
-		 * TODO: Need to fill in provider information.
+		 * DONE: Need to fill in provider information.
 		 */
-		this.provider = null;
+		this.provider = ProviderRepresentation.getProviderLink(dto.getProvider(), uriInfo);
+;
 		
 		this.diagnosis = dto.getDiagnosis();
 		

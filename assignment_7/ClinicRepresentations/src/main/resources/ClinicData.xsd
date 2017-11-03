@@ -84,4 +84,21 @@
 
 	<element name="patient-rep" type="tns:PatientType"></element>
 	
+
+	<element name="provider-rep" type="tns:ProviderType"></element>
+
+	<complexType name="ProviderType">
+		<annotation>
+			<appinfo>
+				<jaxb:class implClass="edu.stevens.cs548.clinic.service.representations.ProviderRepresentation" />
+			</appinfo>
+		</annotation>
+		<sequence>
+			<element name="id" type="dap:LinkType" />
+			<element name="npi" type="long"></element>
+			<element name="name" type="string"></element>
+			<element name="treatments" type="dap:LinkType" nillable="true"
+				minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
 </schema>
