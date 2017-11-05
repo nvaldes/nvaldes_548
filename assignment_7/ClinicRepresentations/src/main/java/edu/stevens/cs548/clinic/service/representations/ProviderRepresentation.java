@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import edu.stevens.cs548.clinic.service.dto.ProviderDto;
 import edu.stevens.cs548.clinic.service.dto.util.ProviderDtoFactory;
 import edu.stevens.cs548.clinic.service.web.rest.data.ProviderType;
 import edu.stevens.cs548.clinic.service.web.rest.data.dap.LinkType;
 
+@XmlRootElement
 public class ProviderRepresentation extends ProviderType {
 	
 	public List<LinkType> getLinksTreatments() {

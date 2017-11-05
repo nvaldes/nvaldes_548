@@ -33,8 +33,9 @@ public class PatientResource {
 	final static Logger logger = Logger.getLogger(PatientResource.class.getCanonicalName());
 	
 	/*
-	 * TODO inject using HK2 (not CDI)
+	 * DONE inject using HK2 (not CDI)
 	 */
+	@Context
     private UriInfo uriInfo;
     
     private PatientDtoFactory patientDtoFactory;
@@ -49,8 +50,9 @@ public class PatientResource {
     }
     
 	/*
-	 * TODO inject using CDI
+	 * DONE inject using CDI
 	 */
+    @Inject
     private IPatientServiceLocal patientService;
     
     @GET
@@ -63,6 +65,7 @@ public class PatientResource {
 	/*
 	 * DONE input should be application/xml
 	 */
+    @POST
     @Consumes("application/xml")
     public Response addPatient(PatientRepresentation patientRep) {
     	try {
@@ -86,6 +89,8 @@ public class PatientResource {
 	/*
 	 * DONE output should be application/xml
 	 */
+    @GET
+    @Path("{id}")
     @Produces("application/xml")
 	public PatientRepresentation getPatient(@PathParam("id") String id) {
 		try {
@@ -101,6 +106,8 @@ public class PatientResource {
     /*
 	 * DONE output should be application/xml
 	 */
+    @GET
+    @Path("byPatientId")
     @Produces("application/xml")
 	public PatientRepresentation getPatientByPatientId(@QueryParam("id") String patientId) {
 		try {
@@ -116,6 +123,8 @@ public class PatientResource {
     /*
 	 * DONE output should be application/xml
 	 */
+    @GET
+    @Path("{id}/treatments/{tid}")
     @Produces("application/xml")
     public TreatmentRepresentation getPatientTreatment(@PathParam("id") String id, @PathParam("tid") String tid) {
     	try {

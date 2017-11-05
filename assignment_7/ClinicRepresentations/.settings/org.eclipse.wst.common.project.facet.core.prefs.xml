@@ -4,7 +4,7 @@
       <attribute name="provider-id" value="jaxb-user-library-provider"/>
     </node>
     <node name="platform">
-      <attribute name="platform-id" value="generic_2_1"/>
+      <attribute name="platform-id" value="generic_2_2"/>
     </node>
     <node name="schemas">
       <node name="schema-1">
