@@ -47,8 +47,10 @@ public class ProviderResource {
      */
     public ProviderResource() {
 		/*
-		 * TODO finish this
+		 * DONE finish this
 		 */
+    		providerDtoFactory = new ProviderDtoFactory();
+    		treatmentDtoFactory = new TreatmentDtoFactory();
     }
     
 	/*

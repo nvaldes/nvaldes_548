@@ -45,8 +45,9 @@ public class PatientResource {
      */
     public PatientResource() {
 		/*
-		 * TODO finish this
+		 * DONE finish this
 		 */
+    		patientDtoFactory = new PatientDtoFactory();
     }
     
 	/*
