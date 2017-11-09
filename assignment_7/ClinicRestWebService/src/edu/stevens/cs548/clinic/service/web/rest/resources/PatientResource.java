@@ -26,7 +26,7 @@ import edu.stevens.cs548.clinic.service.ejb.IPatientServiceLocal;
 import edu.stevens.cs548.clinic.service.representations.PatientRepresentation;
 import edu.stevens.cs548.clinic.service.representations.TreatmentRepresentation;
 
-@Path("/patient")
+@Path("patient")
 @RequestScoped
 public class PatientResource {
 	

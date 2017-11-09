@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<providerRepresentation xmlns:ns2="http://cs548.stevens.edu/clinic/service/web/rest/data">
+  <ns2:npi>12345678</ns2:npi>
+  <ns2:name>Penn Jillette</ns2:name>
+</providerRepresentation>

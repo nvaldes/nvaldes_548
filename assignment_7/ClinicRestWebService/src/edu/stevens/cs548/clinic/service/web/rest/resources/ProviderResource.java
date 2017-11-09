@@ -27,7 +27,7 @@ import edu.stevens.cs548.clinic.service.ejb.IProviderServiceLocal;
 import edu.stevens.cs548.clinic.service.representations.ProviderRepresentation;
 import edu.stevens.cs548.clinic.service.representations.TreatmentRepresentation;
 
-@Path("/provider")
+@Path("provider")
 @RequestScoped
 public class ProviderResource {
 	

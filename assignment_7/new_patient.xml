@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<patientRepresentation xmlns:ns2="http://cs548.stevens.edu/clinic/service/web/rest/data">
+  <ns2:patient-id>435031937</ns2:patient-id>
+  <ns2:name>Noriel Valdes</ns2:name>
+  <ns2:dob>1990-03-26-05:00</ns2:dob>
+  <ns2:age>27</ns2:age>
+</patientRepresentation>
