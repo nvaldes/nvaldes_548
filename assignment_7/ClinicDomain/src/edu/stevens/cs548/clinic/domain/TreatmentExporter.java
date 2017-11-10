@@ -8,12 +8,12 @@ import java.util.List;
 public class TreatmentExporter implements ITreatmentExporter<String> {
 
 	@Override
-	public String exportDrugTreatment(long tid, String diagnosis, String drug, float dosage) {
+	public String exportDrugTreatment(long tid, long pid, long provider_id, String diagnosis, String drug, float dosage) {
 		return String.join("\n", "Drug Treatment: " + tid, "Diagnosis: " + diagnosis, "Drug: " + drug, "Dosage: " + dosage);
 	}
 
 	@Override
-	public String exportRadiology(long tid, String diagnosis, List<Date> dates) {
+	public String exportRadiology(long tid, long pid, long provider_id, String diagnosis, List<Date> dates) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 		List<String> ret = new ArrayList<String>();
 		ret.add("Radiology Treatment: " + tid);
@@ -26,7 +26,7 @@ public class TreatmentExporter implements ITreatmentExporter<String> {
 	}
 
 	@Override
-	public String exportSurgery(long tid, String diagnosis, Date date) {
+	public String exportSurgery(long tid, long pid, long provider_id, String diagnosis, Date date) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 		return String.join("\n", "Surgery Treatment: " + tid, "Diagnosis: " + diagnosis, "Date: " + dateFormatter.format(date));
 	}

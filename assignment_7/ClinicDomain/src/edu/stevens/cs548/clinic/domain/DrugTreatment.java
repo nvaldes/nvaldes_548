@@ -40,7 +40,7 @@ public class DrugTreatment extends Treatment implements Serializable {
 	}
 
 	public <T> T export(ITreatmentExporter<T> visitor) {
-		return visitor.exportDrugTreatment(this.getId(), 
+		return visitor.exportDrugTreatment(this.getId(), this.getPatient().getId(), this.getProvider().getId(),
 								   		   this.getDiagnosis(),
 								   		   this.drug, 
 								   		   this.dosage);

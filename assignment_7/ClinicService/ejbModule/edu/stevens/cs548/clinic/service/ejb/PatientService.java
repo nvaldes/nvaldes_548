@@ -13,11 +13,13 @@ import javax.persistence.PersistenceContext;
 import edu.stevens.cs548.clinic.domain.IPatientDAO;
 import edu.stevens.cs548.clinic.domain.IPatientDAO.PatientExn;
 import edu.stevens.cs548.clinic.domain.IPatientFactory;
+import edu.stevens.cs548.clinic.domain.ITreatmentDAO;
 import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 import edu.stevens.cs548.clinic.domain.ITreatmentExporter;
 import edu.stevens.cs548.clinic.domain.Patient;
 import edu.stevens.cs548.clinic.domain.PatientDAO;
 import edu.stevens.cs548.clinic.domain.PatientFactory;
+import edu.stevens.cs548.clinic.domain.TreatmentDAO;
 import edu.stevens.cs548.clinic.service.dto.*;
 import edu.stevens.cs548.clinic.service.dto.util.PatientDtoFactory;
 
@@ -37,6 +39,8 @@ public class PatientService implements IPatientService,
 	private PatientDtoFactory patientDtoFactory;
 
 	private IPatientDAO patientDAO;
+	
+	private ITreatmentDAO treatmentDAO;
 
 	/**
 	 * Default constructor.
@@ -52,6 +56,7 @@ public class PatientService implements IPatientService,
 	@PostConstruct
 	private void initialize() {
 		this.patientDAO = new PatientDAO(em);
+		this.treatmentDAO = new TreatmentDAO(em);
 	}
 
 	/**
@@ -98,9 +103,12 @@ public class PatientService implements IPatientService,
 		private ObjectFactory factory = new ObjectFactory();
 		
 		@Override
-		public TreatmentDto exportDrugTreatment(long tid, String diagnosis, String drug,
+		public TreatmentDto exportDrugTreatment(long tid, long pid, long provider_id, String diagnosis, String drug,
 				float dosage) {
 			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setId(tid);
+			dto.setPatient(pid);
+			dto.setProvider(provider_id);
 			dto.setDiagnosis(diagnosis);
 			DrugTreatmentType drugInfo = factory.createDrugTreatmentType();
 			drugInfo.setDosage(dosage);
@@ -110,8 +118,11 @@ public class PatientService implements IPatientService,
 		}
 
 		@Override
-		public TreatmentDto exportRadiology(long tid, String diagnosis, List<Date> dates) {
+		public TreatmentDto exportRadiology(long tid, long pid, long provider_id, String diagnosis, List<Date> dates) {
 			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setId(tid);
+			dto.setPatient(pid);
+			dto.setProvider(provider_id);
 			dto.setDiagnosis(diagnosis);
 			RadiologyTreatmentType radiologyInfo = factory.createRadiologyTreatmentType();
 			List<Date> datesList = radiologyInfo.getDates();
@@ -123,8 +134,11 @@ public class PatientService implements IPatientService,
 		}
 
 		@Override
-		public TreatmentDto exportSurgery(long tid, String diagnosis, Date date) {
+		public TreatmentDto exportSurgery(long tid, long pid, long provider_id, String diagnosis, Date date) {
 			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setId(tid);
+			dto.setPatient(pid);
+			dto.setProvider(provider_id);
 			dto.setDiagnosis(diagnosis);
 			SurgeryTreatmentType surgeryInfo = factory.createSurgeryTreatmentType();
 			surgeryInfo.setDate(date);
@@ -140,6 +154,7 @@ public class PatientService implements IPatientService,
 		// Export treatment DTO from patient aggregate
 		try {
 			Patient patient = patientDAO.getPatient(id);
+			patient.setTreatmentDAO(treatmentDAO);
 			TreatmentExporter visitor = new TreatmentExporter();
 			return patient.exportTreatment(tid, visitor);
 		} catch (PatientExn e) {

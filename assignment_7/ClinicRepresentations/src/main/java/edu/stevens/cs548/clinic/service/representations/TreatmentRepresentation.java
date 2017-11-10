@@ -57,16 +57,18 @@ public class TreatmentRepresentation extends TreatmentType {
 		 * DONE: Need to fill in provider information.
 		 */
 		this.provider = ProviderRepresentation.getProviderLink(dto.getProvider(), uriInfo);
-;
 		
 		this.diagnosis = dto.getDiagnosis();
 		
 		if (dto.getDrugTreatment() != null) {
+			this.drugTreatment = new edu.stevens.cs548.clinic.service.web.rest.data.DrugTreatmentType();
 			this.drugTreatment.setDrug(dto.getDrugTreatment().getDrug());
 			this.drugTreatment.setDosage(dto.getDrugTreatment().getDosage());
 		} else if (dto.getSurgeryTreatment() != null) {
+			this.surgeryTreatment = new edu.stevens.cs548.clinic.service.web.rest.data.SurgeryTreatmentType();
 			this.surgeryTreatment.setDate(dto.getSurgeryTreatment().getDate());
 		} else if (dto.getRadiologyTreatment() != null) {
+			this.radiologyTreatment = new edu.stevens.cs548.clinic.service.web.rest.data.RadiologyTreatmentType();
 			List<Date> dates = this.radiologyTreatment.getDates();
 			dates = dto.getRadiologyTreatment().getDates();
 		}
@@ -76,7 +78,7 @@ public class TreatmentRepresentation extends TreatmentType {
 		TreatmentDto m = null;
 		if (this.getDrugTreatment() != null) {
 			m = treatmentDtoFactory.createDrugTreatmentDto();
-			m.setId(Representation.getId(id));
+//			m.setId(Representation.getId(id));
 			m.setPatient(Representation.getId(patient));
 			m.setProvider(Representation.getId(provider));
 			m.setDiagnosis(diagnosis);
@@ -86,7 +88,7 @@ public class TreatmentRepresentation extends TreatmentType {
 			m.setDrugTreatment(dt);
 		} else if (this.getSurgeryTreatment() != null) {
 			m = treatmentDtoFactory.createSurgeryTreatmentDto();
-			m.setId(Representation.getId(id));
+//			m.setId(Representation.getId(id));
 			m.setPatient(Representation.getId(patient));
 			m.setProvider(Representation.getId(provider));
 			m.setDiagnosis(diagnosis);
@@ -95,7 +97,7 @@ public class TreatmentRepresentation extends TreatmentType {
 			m.setSurgeryTreatment(su);
 		} else if (this.getRadiologyTreatment() != null) {
 			m = treatmentDtoFactory.createRadiologyTreatmentDto();
-			m.setId(Representation.getId(id));
+//			m.setId(Representation.getId(id));
 			m.setPatient(Representation.getId(patient));
 			m.setProvider(Representation.getId(provider));
 			m.setDiagnosis(diagnosis);

@@ -35,7 +35,7 @@ public class RadiologyTreatment extends Treatment {
 	@Override
 	public <T> T export(ITreatmentExporter<T> visitor) {
 		// DONE Auto-generated method stub
-		return visitor.exportRadiology(this.getId(), this.getDiagnosis(), this.getDates());
+		return visitor.exportRadiology(this.getId(), this.getPatient().getId(), this.getProvider().getId(), this.getDiagnosis(), this.getDates());
 	}
 	
 	public RadiologyTreatment() {

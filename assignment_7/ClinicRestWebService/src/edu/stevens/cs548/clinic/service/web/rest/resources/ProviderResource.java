@@ -94,7 +94,7 @@ public class ProviderResource {
     public Response addTreatment(@PathParam("id") String id, TreatmentRepresentation treatmentRep) {
     	try {
     		TreatmentDto dto = treatmentRep.getTreatment();
-    		if (id != Long.toString(dto.getProvider())) {
+    		if (id.equals(Long.toString(dto.getProvider())) == false) {
     			throw new WebApplicationException("Provider in path does not match provider in treatment.");
     		}
     		long tid = providerService.addTreatment(dto);

@@ -15,13 +15,16 @@ import edu.stevens.cs548.clinic.domain.IPatientDAO.PatientExn;
 import edu.stevens.cs548.clinic.domain.IProviderDAO;
 import edu.stevens.cs548.clinic.domain.IProviderDAO.ProviderExn;
 import edu.stevens.cs548.clinic.domain.IProviderFactory;
+import edu.stevens.cs548.clinic.domain.ITreatmentDAO;
 import edu.stevens.cs548.clinic.domain.ITreatmentDAO.TreatmentExn;
 import edu.stevens.cs548.clinic.domain.ITreatmentExporter;
 import edu.stevens.cs548.clinic.domain.ITreatmentFactory;
+import edu.stevens.cs548.clinic.domain.Patient;
 import edu.stevens.cs548.clinic.domain.PatientDAO;
 import edu.stevens.cs548.clinic.domain.Provider;
 import edu.stevens.cs548.clinic.domain.ProviderDAO;
 import edu.stevens.cs548.clinic.domain.ProviderFactory;
+import edu.stevens.cs548.clinic.domain.TreatmentDAO;
 import edu.stevens.cs548.clinic.domain.TreatmentFactory;
 import edu.stevens.cs548.clinic.service.dto.*;
 import edu.stevens.cs548.clinic.service.dto.util.ProviderDtoFactory;
@@ -46,6 +49,8 @@ public class ProviderService implements IProviderService,
 	private IProviderDAO providerDAO;
 	
 	private IPatientDAO patientDAO;
+	
+	private ITreatmentDAO treatmentDAO;
 
 	/**
 	 * Default constructor.
@@ -63,6 +68,7 @@ public class ProviderService implements IProviderService,
 	private void initialize() {
 		this.providerDAO = new ProviderDAO(em);
 		this.patientDAO = new PatientDAO(em);
+		this.treatmentDAO = new TreatmentDAO(em);
 	}
 
 	/**
@@ -109,9 +115,12 @@ public class ProviderService implements IProviderService,
 		private ObjectFactory factory = new ObjectFactory();
 		
 		@Override
-		public TreatmentDto exportDrugTreatment(long tid, String diagnosis, String drug,
+		public TreatmentDto exportDrugTreatment(long tid, long pid, long provider_id, String diagnosis, String drug,
 				float dosage) {
 			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setId(tid);
+			dto.setPatient(pid);
+			dto.setProvider(provider_id);
 			dto.setDiagnosis(diagnosis);
 			DrugTreatmentType drugInfo = factory.createDrugTreatmentType();
 			drugInfo.setDosage(dosage);
@@ -121,8 +130,11 @@ public class ProviderService implements IProviderService,
 		}
 
 		@Override
-		public TreatmentDto exportRadiology(long tid, String diagnosis, List<Date> dates) {
+		public TreatmentDto exportRadiology(long tid, long pid, long provider_id, String diagnosis, List<Date> dates) {
 			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setId(tid);
+			dto.setPatient(pid);
+			dto.setProvider(provider_id);
 			dto.setDiagnosis(diagnosis);
 			RadiologyTreatmentType radiologyInfo = factory.createRadiologyTreatmentType();
 			List<Date> datesList = radiologyInfo.getDates();
@@ -134,8 +146,11 @@ public class ProviderService implements IProviderService,
 		}
 
 		@Override
-		public TreatmentDto exportSurgery(long tid, String diagnosis, Date date) {
+		public TreatmentDto exportSurgery(long tid, long pid, long provider_id, String diagnosis, Date date) {
 			TreatmentDto dto = factory.createTreatmentDto();
+			dto.setId(tid);
+			dto.setPatient(pid);
+			dto.setProvider(provider_id);
 			dto.setDiagnosis(diagnosis);
 			SurgeryTreatmentType surgeryInfo = factory.createSurgeryTreatmentType();
 			surgeryInfo.setDate(date);
@@ -151,6 +166,7 @@ public class ProviderService implements IProviderService,
 		// Export treatment DTO from provider aggregate
 		try {
 			Provider provider = providerDAO.getProvider(id);
+			provider.setTreatmentDAO(treatmentDAO);
 			TreatmentExporter visitor = new TreatmentExporter();
 			return provider.exportTreatment(tid, visitor);
 		} catch (ProviderExn e) {
@@ -164,17 +180,19 @@ public class ProviderService implements IProviderService,
 	public long addTreatment(TreatmentDto dto) throws ProviderServiceExn {
 		try {
 			Provider provider = this.providerDAO.getProvider(dto.getProvider());
+			Patient patient = this.patientDAO.getPatient(dto.getPatient());
+			patient.setTreatmentDAO(this.treatmentDAO);
 			DrugTreatmentType dt  = dto.getDrugTreatment();
 			if (dt != null) {
-				return provider.addDrugTreatment(treatmentFactory.createDrugTreatment(dto.getDiagnosis(), dt.getDrug(), dt.getDosage()), patientDAO.getPatient(dto.getPatient()));
+				return provider.addDrugTreatment(treatmentFactory.createDrugTreatment(dto.getDiagnosis(), dt.getDrug(), dt.getDosage()), patient);
 			}
 			SurgeryTreatmentType su  = dto.getSurgeryTreatment();
 			if (su != null) {
-				return provider.addSurgeryTreatment(treatmentFactory.createSurgeryTreatment(dto.getDiagnosis(), su.getDate()), patientDAO.getPatient(dto.getPatient()));
+				return provider.addSurgeryTreatment(treatmentFactory.createSurgeryTreatment(dto.getDiagnosis(), su.getDate()), patient);
 			}
 			RadiologyTreatmentType ra  = dto.getRadiologyTreatment();
 			if (ra != null) {
-				return provider.addRadiologyTreatment(treatmentFactory.createRadiologyTreatment(dto.getDiagnosis(), ra.getDates()), patientDAO.getPatient(dto.getPatient()));
+				return provider.addRadiologyTreatment(treatmentFactory.createRadiologyTreatment(dto.getDiagnosis(), ra.getDates()), patient);
 			}
 		} catch (ProviderExn e) {
 			throw new ProviderNotFoundExn(e.toString());

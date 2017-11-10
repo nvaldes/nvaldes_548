@@ -35,7 +35,7 @@ public class SurgeryTreatment extends Treatment implements Serializable {
 
 	@Override
 	public <T> T export(ITreatmentExporter<T> visitor) {
-		return visitor.exportSurgery(this.getId(), this.getDiagnosis(), this.getDate());
+		return visitor.exportSurgery(this.getId(), this.getPatient().getId(), this.getProvider().getId(), this.getDiagnosis(), this.getDate());
 	}
 	
 	public SurgeryTreatment() {

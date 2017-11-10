@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<treatmentRepresentation xmlns:ns2="http://cs548.stevens.edu/clinic/service/web/rest/data">
+    <ns2:patient url="http://72-it-nv01.local:8080/clinic-rest/resources/patient/52" relation="http://cs548.stevens.edu/clinic/rest/relations/patient" mediaType="application/xml"/>
+    <ns2:provider url="http://72-it-nv01.local:8080/clinic-rest/resources/provider/51" relation="http://cs548.stevens.edu/clinic/rest/relations/provider" mediaType="application/xml"/>
+    <ns2:diagnosis>ADHD</ns2:diagnosis>
+    <ns2:drugTreatment>
+        <ns2:drug>Wellbutrin XL</ns2:drug>
+        <ns2:dosage>0.15</ns2:dosage>
+    </ns2:drugTreatment>
+</treatmentRepresentation>
