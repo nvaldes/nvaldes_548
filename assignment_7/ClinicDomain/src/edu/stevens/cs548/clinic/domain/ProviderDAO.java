@@ -3,6 +3,7 @@ package edu.stevens.cs548.clinic.domain;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 public class ProviderDAO implements IProviderDAO{
@@ -50,12 +51,15 @@ public class ProviderDAO implements IProviderDAO{
 	@Override
 	public Provider getProviderByNpi(long npi) throws ProviderExn {
 		// DONE retrieve provider using query on NPI (secondary key)
-		Query query = em.createNamedQuery("SearchProviderByNPI").setParameter("npi", npi);
-		Provider p = (Provider) query.getSingleResult();
-		if (p == null) {
-			throw new ProviderExn("Missing provider: npi = " + npi);
-		} else {
+		try {
+			Query query = em.createNamedQuery("SearchProviderByNPI").setParameter("npi", npi);
+			Provider p = (Provider) query.getSingleResult();
+			if (p == null) {
+				throw new ProviderExn("Missing provider: npi = " + npi);
+			}
 			return p;
+		} catch (NoResultException e) {
+			throw new ProviderExn("Missing provider: npi = " + npi);
 		}
 	}
 	

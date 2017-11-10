@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -63,7 +64,7 @@ public class ProviderResource {
     @Path("site")
     @Produces("text/plain")
     public String getSiteInfo() {
-    	return providerService.siteInfo();
+    		return providerService.siteInfo();
     }
 
 	/*
@@ -72,17 +73,17 @@ public class ProviderResource {
     @POST
     @Consumes("application/xml")
     public Response addProvider(ProviderRepresentation providerRep) {
-    	try {
-    		ProviderDto dto = providerDtoFactory.createProviderDto();
-    		dto.setNpi(providerRep.getNpi());
-    		dto.setName(providerRep.getName());
-    		long id = providerService.addProvider(dto);
-    		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("{id}");
-    		URI url = ub.build(Long.toString(id));
-    		return Response.created(url).build();
-    	} catch (ProviderServiceExn e) {
-    		throw new WebApplicationException();
-    	}
+	    	try {
+	    		ProviderDto dto = providerDtoFactory.createProviderDto();
+	    		dto.setNpi(providerRep.getNpi());
+	    		dto.setName(providerRep.getName());
+	    		long id = providerService.addProvider(dto);
+	    		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("{id}");
+	    		URI url = ub.build(Long.toString(id));
+	    		return Response.created(url).build();
+	    	} catch (ProviderServiceExn e) {
+	    		throw new WebApplicationException();
+	    	}
     }
     
     /*
@@ -92,18 +93,18 @@ public class ProviderResource {
     @Path("{id}/treatments")
     @Consumes("application/xml")
     public Response addTreatment(@PathParam("id") String id, TreatmentRepresentation treatmentRep) {
-    	try {
-    		TreatmentDto dto = treatmentRep.getTreatment();
-    		if (id.equals(Long.toString(dto.getProvider())) == false) {
-    			throw new WebApplicationException("Provider in path does not match provider in treatment.");
-    		}
-    		long tid = providerService.addTreatment(dto);
-    		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("{tid}");
-    		URI url = ub.build(Long.toString(tid));
-    		return Response.created(url).build();
-    	} catch (ProviderServiceExn e) {
-    		throw new WebApplicationException(e);
-    	}
+	    	try {
+	    		TreatmentDto dto = treatmentRep.getTreatment();
+	    		if (id.equals(Long.toString(dto.getProvider())) == false) {
+	    			throw new WebApplicationException("Provider in path does not match provider in treatment.");
+	    		}
+	    		long tid = providerService.addTreatment(dto);
+	    		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("{tid}");
+	    		URI url = ub.build(Long.toString(tid));
+	    		return Response.created(url).build();
+	    	} catch (ProviderServiceExn e) {
+	    		throw new WebApplicationException(e);
+	    	}
     }
     
 	/**
@@ -122,6 +123,9 @@ public class ProviderResource {
 			ProviderRepresentation providerRep = new ProviderRepresentation(providerDTO, uriInfo);
 			return providerRep;
 		} catch (ProviderServiceExn e) {
+			if (e.getMessage().contains("Missing")) {
+	    			throw new NotFoundException();
+	    		}
 			throw new WebApplicationException(e);
 		}
 	}
@@ -139,6 +143,9 @@ public class ProviderResource {
 			ProviderRepresentation providerRep = new ProviderRepresentation(providerDTO, uriInfo);
 			return providerRep;
 		} catch (ProviderServiceExn e) {
+			if (e.getMessage().contains("Missing")) {
+	    			throw new NotFoundException();
+	    		}
 			throw new WebApplicationException();
 		}
 	}
@@ -150,13 +157,16 @@ public class ProviderResource {
     @Path("{id}/treatments/{tid}")
     @Produces("application/xml")
     public TreatmentRepresentation getProviderTreatment(@PathParam("id") String id, @PathParam("tid") String tid) {
-    	try {
-    		TreatmentDto treatment = providerService.getTreatment(Long.parseLong(id), Long.parseLong(tid)); 
-    		TreatmentRepresentation treatmentRep = new TreatmentRepresentation(treatment, uriInfo);
-    		return treatmentRep;
-    	} catch (ProviderServiceExn e) {
-    		throw new WebApplicationException();
-    	}
+	    	try {
+	    		TreatmentDto treatment = providerService.getTreatment(Long.parseLong(id), Long.parseLong(tid)); 
+	    		TreatmentRepresentation treatmentRep = new TreatmentRepresentation(treatment, uriInfo);
+	    		return treatmentRep;
+	    	} catch (ProviderServiceExn e) { 
+	    		if (e.getMessage().contains("Missing")) {
+	    			throw new NotFoundException();
+	    		}
+	    		throw new WebApplicationException();
+	    	}
     }
 
 }

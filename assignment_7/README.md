@@ -37,6 +37,51 @@ public TreatmentDto getTreatment(long id, long tid)
 
 ---
 
+Third, implementing 404 errors required me to actually parse the `PatientServiceExn` and `ProviderServiceExn` messages. Any messages containing the word "Missing" would throw a JAX-RS `NotFoundException`, which produces a 404 response.  The `WebApplicationException` is still there as a fallback to throw a 500 error.
+
+```java
+@GET
+@Path("{id}/treatments/{tid}")
+@Produces("application/xml")
+public TreatmentRepresentation getProviderTreatment(
+    @PathParam("id") String id,
+    @PathParam("tid") String tid) {
+        try {
+            TreatmentDto treatment = providerService.getTreatment(
+                Long.parseLong(id), Long.parseLong(tid)); 
+            TreatmentRepresentation treatmentRep = new TreatmentRepresentation(
+                treatment, uriInfo);
+            return treatmentRep;
+        } catch (ProviderServiceExn e) { 
+            if (e.getMessage().contains("Missing")) { // NEW PART
+                throw new NotFoundException();
+            }
+            throw new WebApplicationException();
+        }
+}
+```
+
+As part of implementing 404s, I had to go back and implement some exception handling in the `getPatientByPatientId` and `getProviderByNpi` functions in the DAO classes.  The original implementation had assumed that a nonexistent keystring would result in a null response, but it actually throws a JPA `NoResultException`.
+
+```java
+@Override
+public Patient getPatientByPatientId(long pid) throws PatientExn {
+    try {
+        Query query = em.createNamedQuery("SearchPatientByPatientID")
+            .setParameter("pid", pid);
+        Patient p = (Patient) query.getSingleResult();
+        if (p == null) {
+            throw new PatientExn("Missing patient: patient id = " + pid);
+        }
+        return p;
+    } catch (NoResultException e) { // NEW PART (try block surrounds orig fn)
+        throw new PatientExn("Missing patient: patient id = " + pid);
+    }
+}
+```
+
+---
+
 Finally, the `Provider` and `Patient` links in treatment representations kept coming up with an ID of 0, meaning that the fields were null.  To fix this, I had to go all the way back to the TreatmentExporter from Assignment 5 and add arguments for `patient_id` (the primary key, not the patient's SSN) and `provider_id` to each export function throughout all of the projects.  After explicitly passing these values from the entities to the exporter, I only had to set their values in the DTO and the representation picked them up just fine.
 
 ```java

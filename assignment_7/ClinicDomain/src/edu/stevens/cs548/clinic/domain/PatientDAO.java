@@ -3,6 +3,7 @@ package edu.stevens.cs548.clinic.domain;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 public class PatientDAO implements IPatientDAO {
@@ -50,13 +51,17 @@ public class PatientDAO implements IPatientDAO {
 	@Override
 	public Patient getPatientByPatientId(long pid) throws PatientExn {
 		// DONE retrieve patient using query on patient id (secondary key)
-		Query query = em.createNamedQuery("SearchPatientByPatientID").setParameter("pid", pid);
-		Patient p = (Patient) query.getSingleResult();
-		if (p == null) {
-			throw new PatientExn("Missing patient: patient id = " + pid);
-		} else {
+		try {
+			Query query = em.createNamedQuery("SearchPatientByPatientID").setParameter("pid", pid);
+			Patient p = (Patient) query.getSingleResult();
+			if (p == null) {
+				throw new PatientExn("Missing patient: patient id = " + pid);
+			}
 			return p;
+		} catch (NoResultException e) {
+			throw new PatientExn("Missing patient: patient id = " + pid);
 		}
+		
 	}
 	
 	@Override

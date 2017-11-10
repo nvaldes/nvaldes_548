@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -60,7 +61,7 @@ public class PatientResource {
     @Path("site")
     @Produces("text/plain")
     public String getSiteInfo() {
-    	return patientService.siteInfo();
+    		return patientService.siteInfo();
     }
 
 	/*
@@ -69,19 +70,19 @@ public class PatientResource {
     @POST
     @Consumes("application/xml")
     public Response addPatient(PatientRepresentation patientRep) {
-    	try {
-    		PatientDto dto = patientDtoFactory.createPatientDto();
-    		dto.setPatientId(patientRep.getPatientId());
-    		dto.setName(patientRep.getName());
-    		dto.setDob(patientRep.getDob());
-    		dto.setAge(patientRep.getAge());
-    		long id = patientService.addPatient(dto);
-    		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("{id}");
-    		URI url = ub.build(Long.toString(id));
-    		return Response.created(url).build();
-    	} catch (PatientServiceExn e) {
-    		throw new WebApplicationException();
-    	}
+	    	try {
+	    		PatientDto dto = patientDtoFactory.createPatientDto();
+	    		dto.setPatientId(patientRep.getPatientId());
+	    		dto.setName(patientRep.getName());
+	    		dto.setDob(patientRep.getDob());
+	    		dto.setAge(patientRep.getAge());
+	    		long id = patientService.addPatient(dto);
+	    		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path("{id}");
+	    		URI url = ub.build(Long.toString(id));
+	    		return Response.created(url).build();
+	    	} catch (PatientServiceExn e) {
+	    		throw new WebApplicationException();
+	    	}
     }
     
 	/**
@@ -100,7 +101,10 @@ public class PatientResource {
 			PatientRepresentation patientRep = new PatientRepresentation(patientDTO, uriInfo);
 			return patientRep;
 		} catch (PatientServiceExn e) {
-			throw new WebApplicationException();
+			if (e.getMessage().contains("Missing")) {
+	    			throw new NotFoundException();
+	    		}
+			throw new WebApplicationException(e);
 		}
 	}
     
@@ -117,6 +121,9 @@ public class PatientResource {
 			PatientRepresentation patientRep = new PatientRepresentation(patientDTO, uriInfo);
 			return patientRep;
 		} catch (PatientServiceExn e) {
+			if (e.getMessage().contains("Missing")) {
+	    			throw new NotFoundException();
+	    		}
 			throw new WebApplicationException();
 		}
 	}
@@ -128,13 +135,16 @@ public class PatientResource {
     @Path("{id}/treatments/{tid}")
     @Produces("application/xml")
     public TreatmentRepresentation getPatientTreatment(@PathParam("id") String id, @PathParam("tid") String tid) {
-    	try {
-    		TreatmentDto treatment = patientService.getTreatment(Long.parseLong(id), Long.parseLong(tid)); 
-    		TreatmentRepresentation treatmentRep = new TreatmentRepresentation(treatment, uriInfo);
-    		return treatmentRep;
-    	} catch (PatientServiceExn e) {
-    		throw new WebApplicationException();
-    	}
+	    	try {
+	    		TreatmentDto treatment = patientService.getTreatment(Long.parseLong(id), Long.parseLong(tid)); 
+	    		TreatmentRepresentation treatmentRep = new TreatmentRepresentation(treatment, uriInfo);
+	    		return treatmentRep;
+	    	} catch (PatientServiceExn e) {
+			if (e.getMessage().contains("Missing")) {
+	    			throw new NotFoundException();
+	    		}
+	    		throw new WebApplicationException();
+	    	}
     }
 
 }
